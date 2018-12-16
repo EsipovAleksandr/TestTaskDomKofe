@@ -5,8 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestTaskDomKofe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+       Title="Меню" Height="800" Width="1050" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" HorizontalAlignment="Right" >
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="Black">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Brand"  Foreground="White" Grid.Column="1" Grid.Row="0" FontFamily="Roboto" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+        </Grid>
+        <Grid  Grid.Row="1" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="1" Grid.Column="0" Background="#FFD5E5DB">
+                <Button  x:Name="Teachersbtn" Margin="0,30,0,0" Height="38"  FontSize="16" Background="White" BorderBrush="White" Foreground="#FF646464" Click="Teachersbtn_Click"  >Преподаватели</Button>
+                <Button  x:Name="Studentsbtn" Height="38" FontSize="16" Margin="0"  Background="White" BorderBrush="White" Foreground="#FF646464" Click="Studentsbtn_Click" >Ученики</Button>
+                <Button  x:Name="Classbtn"   Margin="0" Height="38" FontSize="16" Background="White" BorderBrush="White" Foreground="#FF646464" Click="Classbtn_Click">Классы</Button>
+                <Button  x:Name="Subjectsbtn"   Margin="0" Height="38" FontSize="16" Background="White" BorderBrush="White" Foreground="#FF646464" Click="Subjectsbtn_Click">Предметы</Button>
+                <Button  x:Name="Exambtn"  Margin="0" Height="38" FontSize="16" Background="White" BorderBrush="White" Foreground="#FF646464" Click="Exambtn_Click">Экзамены</Button>
+            </StackPanel>
+            <Frame Grid.Row="1" x:Name="MyContent" Grid.Column="1"  NavigationUIVisibility="Hidden"  />
+        </Grid>
     </Grid>
 </Window>
