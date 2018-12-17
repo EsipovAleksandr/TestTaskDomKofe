@@ -19,9 +19,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <ListBox Name="lstTeachers" Margin="5">
+            <ListBox Name="lstStudent" Margin="5" SelectionChanged="lstStudent_SelectionChanged">
                 <ListBox.Template>
                     <ControlTemplate>
                         <DockPanel LastChildFill="True">
@@ -61,7 +62,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock  Grid.Column="0"  FontSize="20" Text="{Binding Path=Id}"/>
                             <TextBlock Grid.Column="1"    FontSize="20" Text="{Binding Path=FIO}"/>
-                            <TextBlock Grid.Column="2"    FontSize="20" Text="{Binding Path=DateOfBirth}"/>
+                            <TextBlock Grid.Column="2"    FontSize="20" Text="{Binding Path=YearOfStudy}"/>
                             <TextBlock Grid.Column="3"    FontSize="20" Text="{Binding Path=Address}"/>
                             <TextBlock Grid.Column="4"    FontSize="20" Text="{Binding Path=Phone}"/>
                             <TextBlock Grid.Column="5"    FontSize="20" Text="{Binding Path=Class_id}"/>
@@ -69,8 +70,16 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <StackPanel Grid.Row="1" Orientation="Vertical">
+                <TextBlock Text="Сортировка"/>
+                <RadioButton GroupName="Languages" Content="Без" IsChecked="True" Checked="RadioButton_Checked" />
+                <RadioButton GroupName="Languages" Content="по имени" Checked="RadioButtonName_Checked" />
+                <RadioButton GroupName="Languages" Content="по году обучения" Checked="RadioButtonYear_Checked" />
+                <RadioButton GroupName="Languages" Content="по классу" Checked="RadioButtonСlass_Checked" />
 
-            <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,2,5,10">
+            </StackPanel>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,2,5,10">
+             
                 <Button Margin="2,0,0,0"  Click="addStudent_Click" Padding="2" Content="Добавить" />
                 <Button Margin="2,0,0,0"  Padding="2" Content="Редактировать" Click="UpdateStudent_Click"/>
                 <Button Margin="2,0,0,0"  Click="deleteStudent" Padding="2" Content="Удалить" />
@@ -80,8 +89,8 @@
 
         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5"/>
 
-        <Border Grid.Row="2" Padding="7" Margin="7" Background="LightSteelBlue">
-            <Grid  Name="gridCarDetails" DataContext="{Binding ElementName=lstTeachers, Path=SelectedItem}">
+        <Border Grid.Row="3" Padding="7" Margin="7" Background="LightSteelBlue">
+            <Grid  Name="gridCarDetails" DataContext="{Binding ElementName=lstStudent, Path=SelectedItem}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
@@ -92,20 +101,22 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <TextBlock Margin="7">FIO:</TextBlock>
+                <TextBlock Margin="7">ФИО:</TextBlock>
                 <TextBox Margin="5" Grid.Column="1" Name="txtFIO" Text="{Binding Path=FIO}"></TextBox>
-                <TextBlock Margin="7" Grid.Row="1" >Year of Study:</TextBlock>
-                <DatePicker Margin="5" Grid.Row="1" Name="txtDateOfBirth"  Grid.Column="1" Text="{Binding Path=DateOfBirth}" ></DatePicker>
-                <TextBlock Margin="7" Grid.Row="2">Address:</TextBlock>
+                <TextBlock Margin="7" Grid.Row="1" >Дата начала обучения:</TextBlock>
+                <DatePicker Margin="5" Grid.Row="1" Name="txtDateOfBirth"  Grid.Column="1" Text="{Binding Path=YearOfStudy}" ></DatePicker>
+                <TextBlock Margin="7" Grid.Row="2">Адрес:</TextBlock>
                 <TextBox Margin="5" Grid.Row="2" Name="txtAddress" Grid.Column="1" Text="{Binding Path=Address}"></TextBox>
-                <TextBlock Margin="7" Grid.Row="3" >Phone:</TextBlock>
+                <TextBlock Margin="7" Grid.Row="3" >Телефон:</TextBlock>
                 <TextBox Margin="5" Grid.Row="3" Grid.Column="1" Name="txtPhone" Text="{Binding Path=Phone}"></TextBox>
-                <TextBlock Margin="7" Grid.Row="4" >Class_Id:</TextBlock>
-                <ComboBox  Margin="7" Grid.Row="4"  Name="cbClass"  Grid.Column="1"   ItemsSource="{Binding Class_id}"   DisplayMemberPath="Numbers"    SelectedValuePath="Id" Height="23" />
+                <TextBlock Margin="7" Grid.Row="4" >Класс:</TextBlock>
+                <ComboBox  Margin="7" Grid.Row="4"  Name="cbClass"  Grid.Column="1"  SelectedValue="{Binding Class_id}"  DisplayMemberPath="Numbers"    SelectedValuePath="Id" Height="23" />
                 <TextBox Margin="5,7,0,10" Grid.Column="1" Name="txtStudentId" Visibility="Hidden" Text="{Binding Path=Id}"></TextBox>
-
+                <TextBlock Margin="7" Grid.Row="5" >Средний балл:</TextBlock>
+                <TextBox Margin="5" Grid.Row="5" Grid.Column="1" Name="txMiddle" ></TextBox>
             </Grid>
         </Border>
     </Grid>

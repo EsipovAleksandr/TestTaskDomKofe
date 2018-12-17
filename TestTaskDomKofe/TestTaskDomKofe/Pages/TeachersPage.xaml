@@ -103,7 +103,7 @@
                 <TextBlock Margin="7" Grid.Row="3" >Phone:</TextBlock>
                 <TextBox Margin="5" Grid.Row="3" Grid.Column="1" Name="txtPhone" Text="{Binding Path=Phone}"></TextBox>
                 <TextBlock Margin="7" Grid.Row="4" >Subject_Id:</TextBlock>
-                <ComboBox  Margin="7" Grid.Row="4"  Name="cbSubject"  Grid.Column="1"   ItemsSource="{Binding Subjects_id}"   DisplayMemberPath="SubjectName"    SelectedValuePath="Id" Height="23"  />
+                <ComboBox  Margin="7" Grid.Row="4"  Name="cbSubject"  Grid.Column="1"  SelectedValue="{Binding Subjects_id}"    DisplayMemberPath="SubjectName"    SelectedValuePath="Id" Height="23"  />
                 <TextBox Margin="5,7,0,10" Grid.Column="1" Name="txtTeachersId" Visibility="Hidden" Text="{Binding Path=Id}"></TextBox>
 
             </Grid>

@@ -32,22 +32,12 @@ namespace TestTaskDomKofe.Model
         {
 
             List<Students> result = new List<Students>();
-
-            //Create the SQL Query for returning all the articles
             string sqlQuery = String.Format("select * from Students");
-
-            //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
-            connection.Open();
-
+            connection.Open();        
             SqlCommand command = new SqlCommand(sqlQuery, connection);
-
-            //Create DataReader for storing the returning table into server memory
             SqlDataReader dataReader = command.ExecuteReader();
-
             Students article = null;
-
-            //load into the result object the returned row from the database
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
@@ -94,31 +84,20 @@ namespace TestTaskDomKofe.Model
         }
         public int UpdateStudents(Students students)
         {
-
-            //Create the SQL Query for inserting an article
-
             string createQuery = String.Format("Insert into Students (FIO,YearOfStudy,Address,Phone,Class_id) Values('{0}','{1}','{2}','{3}','{4}');"
        + "Select @@Identity", students.FIO, students.YearOfStudy, students.Address, students.Phone, students.Class_id);
-
             string updateQuery = String.Format("Update Students SET FIO='{0}',YearOfStudy='{1}',Address='{2}',Phone='{3}',Class_id='{4}'  Where Id = {5};",
                students.FIO, students.YearOfStudy, students.Address, students.Phone, students.Class_id, students.Id);
-
-            //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
             connection.Open();
-
-            //Create a Command object
             SqlCommand command = null;
-
             if (students.Id != 0)
                 command = new SqlCommand(updateQuery, connection);
             else
-                command = new SqlCommand(createQuery, connection);
-
+                command = new SqlCommand(createQuery, connection);       
             int savedArticleID = 0;
             try
             {
-                //Execute the command to SQL Server and return the newly created ID
                 var commandResult = command.ExecuteScalar();
                 if (commandResult != null)
                 {
@@ -126,18 +105,13 @@ namespace TestTaskDomKofe.Model
                 }
                 else
                 {
-                    //the update SQL query will not return the primary key but if doesn't throw exception 
-                    //then we will take it from the already provided data
                     savedArticleID = students.Id;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                //there was a problem executing the script
             }
-
-            //Close and dispose
             command.Dispose();
             connection.Close();
             connection.Dispose();

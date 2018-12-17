@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TestTaskDomKofe.Model
 {
-  public  class ClasseManager
+  public  class ClassManager
     {
         public int InsertClass(Classe classe)
         {

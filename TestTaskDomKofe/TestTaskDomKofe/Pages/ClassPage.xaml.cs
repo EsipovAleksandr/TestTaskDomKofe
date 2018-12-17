@@ -34,7 +34,7 @@ namespace TestTaskDomKofe.Pages
                 newClasse.Numbers = txtNumbers.Text;
                 txtNumbers.Text = "";
                 //Create a new Classe Manager that allows you to insert a new Class to database
-                ClasseManager classeManager = new ClasseManager();
+                ClassManager classeManager = new ClassManager();
                 int newClasseID = classeManager.InsertClass(newClasse);
                 Console.WriteLine(newClasseID);
 
@@ -46,7 +46,7 @@ namespace TestTaskDomKofe.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ClasseManager articlesManager = new ClasseManager();
+            ClassManager articlesManager = new ClassManager();
 
             lstClass.ItemsSource = articlesManager.GetClasse();
 
@@ -54,7 +54,7 @@ namespace TestTaskDomKofe.Pages
 
         private void deleteClass_Click(object sender, RoutedEventArgs e)
         {
-            ClasseManager articlesManager = new ClasseManager();
+            ClassManager articlesManager = new ClassManager();
            
             articlesManager.DeleteClasse(Convert.ToInt16(txtNumbersId.Text));
             //обновить
@@ -68,7 +68,7 @@ namespace TestTaskDomKofe.Pages
                 Classe newArticle = new Classe();
                 newArticle.Id = Convert.ToInt16(txtNumbersId.Text);
                 newArticle.Numbers = txtNumbers.Text;
-                ClasseManager classeManager = new ClasseManager();
+                ClassManager classeManager = new ClassManager();
                 int newArticleID = classeManager.UpdateClasse(newArticle);
                 Console.WriteLine(newArticleID);
                 //обновить

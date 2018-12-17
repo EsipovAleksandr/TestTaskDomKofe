@@ -27,7 +27,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Row="1" Grid.Column="0" Background="#FFD5E5DB">
                 <Button  x:Name="Teachersbtn" Margin="0,30,0,0" Height="38"  FontSize="16" Background="White" BorderBrush="White" Foreground="#FF646464" Click="Teachersbtn_Click"  >Преподаватели</Button>
-                <Button  x:Name="Studentsbtn" Height="38" FontSize="16" Margin="0"  Background="White" BorderBrush="White" Foreground="#FF646464" Click="Studentsbtn_Click" >Ученики</Button>
+                <Button  x:Name="Studentsbtn" Height="38" FontSize="16" Margin="0"  Background="White" BorderBrush="White" Foreground="#FF646464" Click="Studentsbtn_Click" >Студенты</Button>
                 <Button  x:Name="Classbtn"   Margin="0" Height="38" FontSize="16" Background="White" BorderBrush="White" Foreground="#FF646464" Click="Classbtn_Click">Классы</Button>
                 <Button  x:Name="Subjectsbtn"   Margin="0" Height="38" FontSize="16" Background="White" BorderBrush="White" Foreground="#FF646464" Click="Subjectsbtn_Click">Предметы</Button>
                 <Button  x:Name="Exambtn"  Margin="0" Height="38" FontSize="16" Background="White" BorderBrush="White" Foreground="#FF646464" Click="Exambtn_Click">Экзамены</Button>
