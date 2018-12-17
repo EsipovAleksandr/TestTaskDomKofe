@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:TestTaskDomKofe.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="TeachersPage">
+      Title="TeachersPage" Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -21,19 +21,67 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <ListBox Name="lstCars" Margin="5" />
+            <ListBox Name="lstTeachers" Margin="5">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="True">
+                            <Grid DockPanel.Dock="Top" Height="30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"></ColumnDefinition>
+                                    <ColumnDefinition Width="150"></ColumnDefinition>
+                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0">Id</Label>
+                                <Label Grid.Column="1">FIO</Label>
+                                <Label Grid.Column="2">DateOfBirth</Label>
+                                <Label Grid.Column="3">Address</Label>
+                                <Label Grid.Column="4">Phone</Label>
+                                <Label Grid.Column="5">Subjects_id</Label>
+                            </Grid>
+                            <ItemsPresenter></ItemsPresenter>
+                        </DockPanel>
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid  Width="auto" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="30" Width="*"/>
+                                <ColumnDefinition MinWidth="150" Width="*"/>
+                                <ColumnDefinition MinWidth="200" Width="*"/>
+                                <ColumnDefinition MinWidth="200" Width="*"/>
+                                <ColumnDefinition MinWidth="200" Width="*"/>
+                                <ColumnDefinition MinWidth="50" Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"  FontSize="20" Text="{Binding Path=Id}"/>
+                            <TextBlock Grid.Column="1"    FontSize="20" Text="{Binding Path=FIO}"/>
+                            <TextBlock Grid.Column="2"    FontSize="20" Text="{Binding Path=DateOfBirth}"/>
+                            <TextBlock Grid.Column="3"    FontSize="20" Text="{Binding Path=Address}"/>
+                            <TextBlock Grid.Column="4"    FontSize="20" Text="{Binding Path=Phone}"/>
+                            <TextBlock Grid.Column="5"    FontSize="20" Text="{Binding Path=Subjects_id}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,2,5,10">
-                <Button Margin="2,0,0,0"  Padding="2" Content="Получить список машин"/>
-                <Button Margin="2,0,0,0"  Padding="2" Content="Удалить" />
-                <Button Margin="2,0,0,0"  Padding="2" Content="Добавить" />
+                <Button Margin="2,0,0,0"  Click="addTeachers" Padding="2" Content="Добавить" />
+                <Button Margin="2,0,0,0"  Padding="2" Content="Редактировать" Click="UpdateTeachers_Click"/>
+                <Button Margin="2,0,0,0"  Click="deleteTeachers" Padding="2" Content="Удалить" />
+               
             </StackPanel>
         </Grid>
 
         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5"/>
 
         <Border Grid.Row="2" Padding="7" Margin="7" Background="LightSteelBlue">
-            <Grid  Name="gridCarDetails" DataContext="{Binding ElementName=lstCars, Path=SelectedItem}">
+            <Grid  Name="gridCarDetails" DataContext="{Binding ElementName=lstTeachers, Path=SelectedItem}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
@@ -43,19 +91,21 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <TextBlock Margin="7">Марка:</TextBlock>
-                <TextBox Margin="5" Grid.Column="1" Text="{Binding Path=ModelName}"></TextBox>
-                <TextBlock Margin="7" Grid.Row="1">Модель:</TextBlock>
-                <TextBox Margin="5" Grid.Row="1" Grid.Column="1" Text="{Binding Path=ModelNumber}"></TextBox>
-                <TextBlock Margin="7" Grid.Row="2">Цена (грн):</TextBlock>
-                <TextBox Margin="5" Grid.Row="2" Grid.Column="1" Text="{Binding Cost, ValidatesOnExceptions=True, StringFormat={}{0:F2} грн.}"></TextBox>
-                <TextBlock Margin="7,7,7,0" Grid.Row="3">Описание:</TextBlock>
-                <TextBox Margin="7" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
-                         VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" 
-                         Text="{Binding Path=Description, TargetNullValue=[Описание не предоставлено]}"></TextBox>
+                <TextBlock Margin="7">FIO:</TextBlock>
+                <TextBox Margin="5" Grid.Column="1" Name="txtFIO" Text="{Binding Path=FIO}"></TextBox>
+                <TextBlock Margin="7" Grid.Row="1" >DateOfBirth:</TextBlock>
+                <DatePicker Margin="5" Grid.Row="1" Name="txtDateOfBirth"  Grid.Column="1" Text="{Binding Path=DateOfBirth}" ></DatePicker>
+                <TextBlock Margin="7" Grid.Row="2">Address:</TextBlock>
+                <TextBox Margin="5" Grid.Row="2" Name="txtAddress" Grid.Column="1" Text="{Binding Path=Address}"></TextBox>
+                <TextBlock Margin="7" Grid.Row="3" >Phone:</TextBlock>
+                <TextBox Margin="5" Grid.Row="3" Grid.Column="1" Name="txtPhone" Text="{Binding Path=Phone}"></TextBox>
+                <TextBlock Margin="7" Grid.Row="4" >Subject_Id:</TextBlock>
+                <ComboBox  Margin="7" Grid.Row="4"  Name="cbSubject"  Grid.Column="1"   ItemsSource="{Binding Subjects_id}"   DisplayMemberPath="SubjectName"    SelectedValuePath="Id" Height="23"  />
+                <TextBox Margin="5,7,0,10" Grid.Column="1" Name="txtTeachersId" Visibility="Hidden" Text="{Binding Path=Id}"></TextBox>
+
             </Grid>
         </Border>
     </Grid>

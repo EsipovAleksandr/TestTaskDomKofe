@@ -22,6 +22,21 @@
             </Grid.RowDefinitions>
 
             <ListBox Name="lstSubjects" Margin="5">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="True">
+                            <Grid DockPanel.Dock="Top" Height="30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="300"></ColumnDefinition>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0">Id</Label>
+                                <Label Grid.Column="1">Предмет</Label>
+                            </Grid>
+                            <ItemsPresenter></ItemsPresenter>
+                        </DockPanel>
+                    </ControlTemplate>
+                </ListBox.Template>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid  Width="auto" >
@@ -33,9 +48,8 @@
                                 <ColumnDefinition MinWidth="100" Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock  Grid.Column="0"  FontSize="20" Text="Предмет"/>
-                            <TextBlock Grid.Column="1"    FontSize="20" Text="{Binding Path=Id}"/>
-                            <TextBlock Grid.Column="2"    FontSize="20" Text="{Binding Path=SubjectName}"/>
+                            <TextBlock Grid.Column="0"    FontSize="20" Text="{Binding Path=Id}"/>
+                            <TextBlock Grid.Column="1"    FontSize="20" Text="{Binding Path=SubjectName}"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -61,7 +75,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Margin="7">Название предмета:</TextBlock>
-                <TextBox Margin="5,7,0,10" Grid.Column="1" Name="txtNumbers" Text="{Binding Path=SubjectName}" Grid.ColumnSpan="2"></TextBox>
+                <TextBox Margin="5,7,0,10" Grid.Column="1" Name="txtNumbers" Text="{Binding Path=SubjectName}" Grid.ColumnSpan="2" Height="23"></TextBox>
                 <TextBox Margin="5,7,0,10" Grid.Column="1" Name="txtNumbersId" Visibility="Hidden" Text="{Binding Path=Id}" Grid.ColumnSpan="2"></TextBox>
 
             </Grid>

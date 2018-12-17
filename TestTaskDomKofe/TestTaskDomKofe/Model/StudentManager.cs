@@ -4,42 +4,37 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestTaskDomKofe.Model.Entities;
 
 namespace TestTaskDomKofe.Model
 {
-  public  class ClasseManager
+    public class StudentManager
     {
-        public int InsertClass(Classe classe)
+        public int InsertSubjects(Students students)
         {
-            //Create the SQL Query for inserting an class
-            string sqlQuery = String.Format("Insert into Class (Number) Values('{0}');"
-            +"Select @@Identity", classe.Numbers);
-
+            string sqlQuery = String.Format("Insert into Students (FIO,YearOfStudy,Address,Phone,Class_id) Values('{0}','{1}','{2}','{3}','{4}');"
+           + "Select @@Identity", students.FIO, students.YearOfStudy, students.Address, students.Phone, students.Class_id);
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
             connection.Open();
-
             //Create a Command object
             SqlCommand command = new SqlCommand(sqlQuery, connection);
-
             //Execute the command to SQL Server and return the newly created ID
             int newclasseID = Convert.ToInt32((decimal)command.ExecuteScalar());
-
             //Close and dispose
             command.Dispose();
             connection.Close();
             connection.Dispose();
-
             // Set return value
             return newclasseID;
         }
-        public List<Classe> GetClasse()
+        public List<Students> GetStudents()
         {
 
-            List<Classe> result = new List<Classe>();
+            List<Students> result = new List<Students>();
 
             //Create the SQL Query for returning all the articles
-            string sqlQuery = String.Format("select * from Class");
+            string sqlQuery = String.Format("select * from Students");
 
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
@@ -50,16 +45,20 @@ namespace TestTaskDomKofe.Model
             //Create DataReader for storing the returning table into server memory
             SqlDataReader dataReader = command.ExecuteReader();
 
-            Classe article = null;
+            Students article = null;
 
             //load into the result object the returned row from the database
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
                 {
-                    article = new Classe();
-                    article.Id =Convert.ToInt32(dataReader["Id"]);
-                    article.Numbers = dataReader["Number"].ToString();
+                    article = new Students();
+                    article.Id = Convert.ToInt32(dataReader["Id"]);
+                    article.FIO = dataReader["FIO"].ToString();
+                    article.YearOfStudy = Convert.ToDateTime(dataReader["YearOfStudy"].ToString());
+                    article.Address = dataReader["Address"].ToString();
+                    article.Phone = dataReader["Phone"].ToString();
+                    article.Class_id = Convert.ToInt32(dataReader["Class_id"]);
                     result.Add(article);
                 }
             }
@@ -67,12 +66,12 @@ namespace TestTaskDomKofe.Model
             return result;
 
         }
-        public bool DeleteClasse(int classeID)
+        public bool DeleteStudents(int studentsID)
         {
             bool result = false;
 
             //Create the SQL Query for deleting an article
-            string sqlQuery = String.Format("delete from Class where Id = {0}", classeID);
+            string sqlQuery = String.Format("delete from Students where Id = {0}", studentsID);
 
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
@@ -93,16 +92,16 @@ namespace TestTaskDomKofe.Model
 
             return result;
         }
-        public int UpdateClasse(Classe classe)
+        public int UpdateStudents(Students students)
         {
 
             //Create the SQL Query for inserting an article
-            string createQuery = String.Format("Insert into Class (Number) Values('{0}');"
-                + "Select @@Identity", classe.Numbers);
 
-            //Create the SQL Query for updating an article
-            string updateQuery = String.Format("Update Class SET Number='{0}' Where Id = {1};",
-                classe.Numbers, classe.Id);
+            string createQuery = String.Format("Insert into Students (FIO,YearOfStudy,Address,Phone,Class_id) Values('{0}','{1}','{2}','{3}','{4}');"
+       + "Select @@Identity", students.FIO, students.YearOfStudy, students.Address, students.Phone, students.Class_id);
+
+            string updateQuery = String.Format("Update Students SET FIO='{0}',YearOfStudy='{1}',Address='{2}',Phone='{3}',Class_id='{4}'  Where Id = {5};",
+               students.FIO, students.YearOfStudy, students.Address, students.Phone, students.Class_id, students.Id);
 
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
@@ -111,7 +110,7 @@ namespace TestTaskDomKofe.Model
             //Create a Command object
             SqlCommand command = null;
 
-            if (classe.Id != 0)
+            if (students.Id != 0)
                 command = new SqlCommand(updateQuery, connection);
             else
                 command = new SqlCommand(createQuery, connection);
@@ -129,7 +128,7 @@ namespace TestTaskDomKofe.Model
                 {
                     //the update SQL query will not return the primary key but if doesn't throw exception 
                     //then we will take it from the already provided data
-                    savedArticleID = classe.Id;
+                    savedArticleID = students.Id;
                 }
             }
             catch (Exception ex)

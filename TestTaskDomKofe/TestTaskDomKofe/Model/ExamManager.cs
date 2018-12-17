@@ -4,16 +4,17 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestTaskDomKofe.Model.Entities;
 
 namespace TestTaskDomKofe.Model
 {
-  public  class ClasseManager
+   public class ExamManager
     {
-        public int InsertClass(Classe classe)
+        public int InsertExam(Exam exam)
         {
             //Create the SQL Query for inserting an class
-            string sqlQuery = String.Format("Insert into Class (Number) Values('{0}');"
-            +"Select @@Identity", classe.Numbers);
+            string sqlQuery = String.Format("Insert into Exam (Subjects_id,Students_id,Assessment) Values('{0}','{1}','{2}');"
+            + "Select @@Identity", exam.Subjects_id,exam.Students_id,exam.Assessment);
 
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
@@ -33,13 +34,14 @@ namespace TestTaskDomKofe.Model
             // Set return value
             return newclasseID;
         }
-        public List<Classe> GetClasse()
+
+        public List<Exam> GetExam()
         {
 
-            List<Classe> result = new List<Classe>();
+            List<Exam> result = new List<Exam>();
 
             //Create the SQL Query for returning all the articles
-            string sqlQuery = String.Format("select * from Class");
+            string sqlQuery = String.Format("select * from Exam");
 
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
@@ -50,16 +52,18 @@ namespace TestTaskDomKofe.Model
             //Create DataReader for storing the returning table into server memory
             SqlDataReader dataReader = command.ExecuteReader();
 
-            Classe article = null;
+            Exam article = null;
 
             //load into the result object the returned row from the database
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
                 {
-                    article = new Classe();
-                    article.Id =Convert.ToInt32(dataReader["Id"]);
-                    article.Numbers = dataReader["Number"].ToString();
+                    article = new Exam();
+                    article.Id = Convert.ToInt32(dataReader["Id"]);
+                    article.Subjects_id =Convert.ToInt32(dataReader["Subjects_id"]);
+                    article.Students_id = Convert.ToInt32(dataReader["Students_id"]);
+                    article.Assessment = Convert.ToInt32(dataReader["Assessment"]);
                     result.Add(article);
                 }
             }
@@ -67,42 +71,29 @@ namespace TestTaskDomKofe.Model
             return result;
 
         }
-        public bool DeleteClasse(int classeID)
+        public bool DeleteExam(int examID)
         {
             bool result = false;
-
-            //Create the SQL Query for deleting an article
-            string sqlQuery = String.Format("delete from Class where Id = {0}", classeID);
-
-            //Create and open a connection to SQL Server 
+            string sqlQuery = String.Format("delete from Exam where Id = {0}", examID);
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
             connection.Open();
-
-            //Create a Command object
             SqlCommand command = new SqlCommand(sqlQuery, connection);
-
-            // Execute the command
             int rowsDeletedCount = command.ExecuteNonQuery();
             if (rowsDeletedCount != 0)
                 result = true;
-            // Close and dispose
             command.Dispose();
             connection.Close();
             connection.Dispose();
-
-
             return result;
         }
-        public int UpdateClasse(Classe classe)
+        public int UpdateExam(Exam exam)
         {
+            string createQuery = String.Format("Insert into Exam (Subjects_id,Students_id,Assessment) Values('{0}','{1}','{2}');"
+                + "Select @@Identity", exam.Subjects_id, exam.Students_id, exam.Assessment);
 
-            //Create the SQL Query for inserting an article
-            string createQuery = String.Format("Insert into Class (Number) Values('{0}');"
-                + "Select @@Identity", classe.Numbers);
 
-            //Create the SQL Query for updating an article
-            string updateQuery = String.Format("Update Class SET Number='{0}' Where Id = {1};",
-                classe.Numbers, classe.Id);
+            string updateQuery = String.Format("Update Exam SET Subjects_id='{0}',Students_id='{1}',Assessment='{2}' Where Id = {3};",
+                exam.Subjects_id,exam.Students_id,exam.Assessment,exam.Id);
 
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
@@ -111,7 +102,7 @@ namespace TestTaskDomKofe.Model
             //Create a Command object
             SqlCommand command = null;
 
-            if (classe.Id != 0)
+            if (exam.Id != 0)
                 command = new SqlCommand(updateQuery, connection);
             else
                 command = new SqlCommand(createQuery, connection);
@@ -129,7 +120,7 @@ namespace TestTaskDomKofe.Model
                 {
                     //the update SQL query will not return the primary key but if doesn't throw exception 
                     //then we will take it from the already provided data
-                    savedArticleID = classe.Id;
+                    savedArticleID = exam.Id;
                 }
             }
             catch (Exception ex)
@@ -146,5 +137,4 @@ namespace TestTaskDomKofe.Model
             return savedArticleID;
         }
     }
-
 }
