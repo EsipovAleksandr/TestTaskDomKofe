@@ -12,8 +12,8 @@ namespace TestTaskDomKofe.Model
     {
         public int InsertSubjects(Teachers teachers)
         {      
-            string sqlQuery = String.Format("Insert into Teachers (FIO,DateOfBirth,Address,Phone,Subjects_id) Values('{0}','{1}','{2}','{3}','{4}');"
-           + "Select @@Identity", teachers.FIO, teachers.DateOfBirth, teachers.Address, teachers.Phone, teachers.Subjects_id);
+            string sqlQuery = String.Format("Insert into Teachers (FIO,DateOfBirth,Address,Phone,Subjects_id) Values(N'{0}','{1}',N'{2}',N'{3}','{4}');"
+           + "Select @@Identity",teachers.FIO, teachers.DateOfBirth.ToString("yyyy-MM-dd"), teachers.Address, teachers.Phone, teachers.Subjects_id);
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
             connection.Open();
@@ -55,7 +55,7 @@ namespace TestTaskDomKofe.Model
                     article = new Teachers();
                     article.Id = Convert.ToInt32(dataReader["Id"]);
                     article.FIO = dataReader["FIO"].ToString();
-                    article.DateOfBirth = Convert.ToDateTime(dataReader["DateOfBirth"].ToString());
+                    article.DateOfBirth = Convert.ToDateTime(dataReader["DateOfBirth"]);
                     article.Address = dataReader["Address"].ToString();
                     article.Phone = dataReader["Phone"].ToString();
                     article.Subjects_id =Convert.ToInt32(dataReader["Subjects_id"]);
@@ -97,11 +97,11 @@ namespace TestTaskDomKofe.Model
 
             //Create the SQL Query for inserting an article
 
-            string createQuery = String.Format("Insert into Teachers (FIO,DateOfBirth,Address,Phone,Subjects_id) Values('{0}','{1}','{2}','{3}','{4}');"
-       + "Select @@Identity", teachers.FIO, teachers.DateOfBirth, teachers.Address, teachers.Phone, teachers.Subjects_id);
+            string createQuery = String.Format("Insert into Teachers (FIO,DateOfBirth,Address,Phone,Subjects_id) Values(N'{0}','{1}',N'{2}','{3}','{4}');"
+       + "Select @@Identity", teachers.FIO, teachers.DateOfBirth.ToString("yyyy-MM-dd"), teachers.Address, teachers.Phone, teachers.Subjects_id);
 
-            string updateQuery = String.Format("Update Teachers SET FIO='{0}',DateOfBirth='{1}',Address='{2}',Phone='{3}',Subjects_id='{4}'  Where Id = {5};",
-               teachers.FIO, teachers.DateOfBirth, teachers.Address, teachers.Phone, teachers.Subjects_id, teachers.Id);
+            string updateQuery = String.Format("Update Teachers SET FIO=N'{0}',DateOfBirth='{1}',Address=N'{2}',Phone='{3}',Subjects_id='{4}'  Where Id = {5};",
+               teachers.FIO, teachers.DateOfBirth.ToString("yyyy-MM-dd"), teachers.Address, teachers.Phone, teachers.Subjects_id, teachers.Id);
 
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);

@@ -29,41 +29,49 @@ namespace TestTaskDomKofe.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-
             TeachersManager teachersManagercs = new TeachersManager();
-
             lstTeachers.ItemsSource = teachersManagercs.GetTeachers();
-
             SubjectsManager subjectsManager = new SubjectsManager();
-
             cbSubject.ItemsSource = subjectsManager.GetSubjects();
         }
 
         private void addTeachers(object sender, RoutedEventArgs e)
         {
-            if (txtFIO.Text != "")
+            try
             {
-                Teachers teachers = new Teachers();
-                teachers.FIO = txtFIO.Text;
-                teachers.DateOfBirth = Convert.ToDateTime(txtDateOfBirth.Text);
-                teachers.Address = txtAddress.Text;
-                teachers.Phone = txtPhone.Text;
-                teachers.Subjects_id =Convert.ToInt32(cbSubject.SelectedValue);
-                Console.WriteLine(txtFIO.Text + " " + txtDateOfBirth + " " + txtAddress.Text + " " + txtPhone.Text + " " + cbSubject.SelectedValue);
-                //Create a new Classe Manager that allows you to insert a new Class to database
-                TeachersManager teachersManagercs = new TeachersManager();
-                int newClasseID = teachersManagercs.InsertSubjects(teachers);
-                Console.WriteLine(newClasseID);
-    
-                //обновить
-                lstTeachers.ItemsSource = teachersManagercs.GetTeachers();
+                if (txtFIO.Text != "" && txtDateOfBirth.Text != "" && txtAddress.Text != "" && cbSubject.Text != "")
+                {
+                    Teachers teachers = new Teachers();
+                    teachers.FIO = txtFIO.Text;
+                    teachers.DateOfBirth = Convert.ToDateTime(txtDateOfBirth.Text);
+                    teachers.Address = txtAddress.Text;
+                    teachers.Phone = txtPhone.Text;
+                    teachers.Subjects_id = Convert.ToInt32(cbSubject.SelectedValue);
+                    Console.WriteLine(teachers.DateOfBirth.ToString("yyyy-MM-dd"));
+                    //Create a new Classe Manager that allows you to insert a new Class to database
+                    TeachersManager teachersManagercs = new TeachersManager();
+                    int newClasseID = teachersManagercs.InsertSubjects(teachers);
+                    Console.WriteLine(newClasseID);
+                    //обновить
+                    lstTeachers.ItemsSource = teachersManagercs.GetTeachers();
+                }
+                else
+                {
+                    MessageBox.Show("Не все поля заполнены!");
+
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
         private void deleteTeachers(object sender, RoutedEventArgs e)
         {
+         
             TeachersManager teachersManager = new TeachersManager();
-
             teachersManager.DeleteTeachers(Convert.ToInt16(txtTeachersId.Text));
             //обновить
             lstTeachers.ItemsSource = teachersManager.GetTeachers();
@@ -80,6 +88,8 @@ namespace TestTaskDomKofe.Pages
                 teachers.Address = txtAddress.Text;
                 teachers.Phone = txtPhone.Text;
                 teachers.Subjects_id = Convert.ToInt32(cbSubject.SelectedValue);
+         
+               
                 TeachersManager teachersManagercs = new TeachersManager();
                 int newArticleID = teachersManagercs.UpdateTeachers(teachers);
                 Console.WriteLine(newArticleID);

@@ -4,10 +4,13 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TestTaskDomKofe.Pages"
+      xmlns:databinding="clr-namespace:TestTaskDomKofe.Model"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="TeachersPage" Loaded="Page_Loaded">
-
+    <Page.Resources>
+        <databinding:DateTimeToDateConverter x:Key="DateTimeToDateConverter"></databinding:DateTimeToDateConverter>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -20,55 +23,75 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
+            <ListView Name="lstTeachers" Margin="5"  HorizontalContentAlignment="Stretch" FontSize="16" >
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Id}"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Id"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding FIO}"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="FIO"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DateOfBirth}"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="DateOfBirth"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Phone}"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Phone"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Address}"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Address"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Subjects_id}"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Subjects"></TextBlock>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
 
-            <ListBox Name="lstTeachers" Margin="5">
-                <ListBox.Template>
-                    <ControlTemplate>
-                        <DockPanel LastChildFill="True">
-                            <Grid DockPanel.Dock="Top" Height="30">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30"></ColumnDefinition>
-                                    <ColumnDefinition Width="150"></ColumnDefinition>
-                                    <ColumnDefinition Width="200"></ColumnDefinition>
-                                    <ColumnDefinition Width="200"></ColumnDefinition>
-                                    <ColumnDefinition Width="200"></ColumnDefinition>
-                                    <ColumnDefinition Width="50"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0">Id</Label>
-                                <Label Grid.Column="1">FIO</Label>
-                                <Label Grid.Column="2">DateOfBirth</Label>
-                                <Label Grid.Column="3">Address</Label>
-                                <Label Grid.Column="4">Phone</Label>
-                                <Label Grid.Column="5">Subjects_id</Label>
-                            </Grid>
-                            <ItemsPresenter></ItemsPresenter>
-                        </DockPanel>
-                    </ControlTemplate>
-                </ListBox.Template>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid  Width="auto" >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition MinWidth="30" Width="*"/>
-                                <ColumnDefinition MinWidth="150" Width="*"/>
-                                <ColumnDefinition MinWidth="200" Width="*"/>
-                                <ColumnDefinition MinWidth="200" Width="*"/>
-                                <ColumnDefinition MinWidth="200" Width="*"/>
-                                <ColumnDefinition MinWidth="50" Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock  Grid.Column="0"  FontSize="20" Text="{Binding Path=Id}"/>
-                            <TextBlock Grid.Column="1"    FontSize="20" Text="{Binding Path=FIO}"/>
-                            <TextBlock Grid.Column="2"    FontSize="20" Text="{Binding Path=DateOfBirth}"/>
-                            <TextBlock Grid.Column="3"    FontSize="20" Text="{Binding Path=Address}"/>
-                            <TextBlock Grid.Column="4"    FontSize="20" Text="{Binding Path=Phone}"/>
-                            <TextBlock Grid.Column="5"    FontSize="20" Text="{Binding Path=Subjects_id}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,2,5,10">
                 <Button Margin="2,0,0,0"  Click="addTeachers" Padding="2" Content="Добавить" />
@@ -97,7 +120,8 @@
                 <TextBlock Margin="7">FIO:</TextBlock>
                 <TextBox Margin="5" Grid.Column="1" Name="txtFIO" Text="{Binding Path=FIO}"></TextBox>
                 <TextBlock Margin="7" Grid.Row="1" >DateOfBirth:</TextBlock>
-                <DatePicker Margin="5" Grid.Row="1" Name="txtDateOfBirth"  Grid.Column="1" Text="{Binding Path=DateOfBirth}" ></DatePicker>
+                <DatePicker Margin="5" Grid.Row="1"  Name="txtDateOfBirth"    Grid.Column="1" Text="{Binding Path=DateOfBirth, Converter={StaticResource DateTimeToDateConverter}}" ></DatePicker>
+                
                 <TextBlock Margin="7" Grid.Row="2">Address:</TextBlock>
                 <TextBox Margin="5" Grid.Row="2" Name="txtAddress" Grid.Column="1" Text="{Binding Path=Address}"></TextBox>
                 <TextBlock Margin="7" Grid.Row="3" >Phone:</TextBlock>

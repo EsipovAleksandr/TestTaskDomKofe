@@ -32,11 +32,11 @@ namespace TestTaskDomKofe.Pages
             {
                 Classe newClasse = new Classe();
                 newClasse.Numbers = txtNumbers.Text;
+                newClasse.Teacher_Id = Convert.ToInt16(cbTeacher_Id.SelectedValue);
                 txtNumbers.Text = "";
                 //Create a new Classe Manager that allows you to insert a new Class to database
                 ClassManager classeManager = new ClassManager();
                 int newClasseID = classeManager.InsertClass(newClasse);
-                Console.WriteLine(newClasseID);
 
                 //обновить
                 lstClass.ItemsSource = classeManager.GetClasse();
@@ -50,15 +50,28 @@ namespace TestTaskDomKofe.Pages
 
             lstClass.ItemsSource = articlesManager.GetClasse();
 
+            TeachersManager teachersManager = new TeachersManager();
+            cbTeacher_Id.ItemsSource = teachersManager.GetTeachers();
+
         }
 
         private void deleteClass_Click(object sender, RoutedEventArgs e)
         {
-            ClassManager articlesManager = new ClassManager();
-           
-            articlesManager.DeleteClasse(Convert.ToInt16(txtNumbersId.Text));
-            //обновить
-            lstClass.ItemsSource = articlesManager.GetClasse();
+            StudentManager studentManager =new StudentManager();
+            var id = studentManager.GetStudents().Where(x => x.Class_id == Convert.ToInt32(txtNumbersId.Text)).FirstOrDefault();
+            Console.WriteLine(id);
+          
+          if (id==null)
+            {
+                ClassManager articlesManager = new ClassManager();
+                articlesManager.DeleteClasse(Convert.ToInt16(txtNumbersId.Text));
+                //обновить
+                lstClass.ItemsSource = articlesManager.GetClasse();
+            }
+            else
+            {
+                MessageBox.Show("Удалите сначало учеников с данного класса");
+            }
         }
 
         private void UpdateClass_Click(object sender, RoutedEventArgs e)

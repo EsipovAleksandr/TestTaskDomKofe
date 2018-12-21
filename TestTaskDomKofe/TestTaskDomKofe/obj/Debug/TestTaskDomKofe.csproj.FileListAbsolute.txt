@@ -25,3 +25,4 @@ C:\Users\Александр\Documents\GitHub\TestTaskDomKofe\TestTaskDomKofe\Tes
 C:\Users\Александр\Documents\GitHub\TestTaskDomKofe\TestTaskDomKofe\TestTaskDomKofe\obj\Debug\Pages\TeachersPage.baml
 C:\Users\Александр\Documents\GitHub\TestTaskDomKofe\TestTaskDomKofe\TestTaskDomKofe\bin\Debug\MaterialDesignColors.dll
 C:\Users\Александр\Documents\GitHub\TestTaskDomKofe\TestTaskDomKofe\TestTaskDomKofe\obj\Debug\TestTaskDomKofe.csproj.CopyComplete
+C:\Users\Александр\Documents\GitHub\TestTaskDomKofe\TestTaskDomKofe\TestTaskDomKofe\obj\Debug\GeneratedInternalTypeHelper.g.cs

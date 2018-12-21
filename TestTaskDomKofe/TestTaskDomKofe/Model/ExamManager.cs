@@ -34,6 +34,40 @@ namespace TestTaskDomKofe.Model
             // Set return value
             return newclasseID;
         }
+        public List<ExamModel> GetExamModel()
+        {
+            List<ExamModel> result = new List<ExamModel>();
+            //Create the SQL Query for returning all the articles
+            string sqlQuery = String.Format("SELECT first.Id,first.Students_id,first.Subjects_id  ,second.FIO,third.SubjectName,first.Assessment FROM Exam first, Students second,Subjects third WHERE  first.Subjects_id= third.Id and first.Students_id = second.Id");
+
+            //Create and open a connection to SQL Server 
+            SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
+            connection.Open();
+
+            SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+            //Create DataReader for storing the returning table into server memory
+            SqlDataReader dataReader = command.ExecuteReader();
+
+            ExamModel article = null;
+
+            //load into the result object the returned row from the database
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    article = new ExamModel();
+                    article.Id = Convert.ToInt32(dataReader["Id"]);
+                    article.FIO = dataReader["FIO"].ToString();
+                    article.SubjectName = dataReader["SubjectName"].ToString();
+                    article.Assessment = Convert.ToInt32(dataReader["Assessment"]);
+                    article.Subjects_id = Convert.ToInt32(dataReader["Subjects_id"]);
+                    article.Students_id = Convert.ToInt32(dataReader["Students_id"]);
+                    result.Add(article);
+                }
+            }
+            return result;
+        }
 
         public List<Exam> GetExam()
         {

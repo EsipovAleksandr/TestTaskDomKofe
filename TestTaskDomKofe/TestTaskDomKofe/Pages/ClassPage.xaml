@@ -72,9 +72,12 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Margin="7">Номер класса:</TextBlock>
                 <TextBox Margin="5,7,0,10" Grid.Column="1" Name="txtNumbers" Text="{Binding Path=Numbers}" Grid.ColumnSpan="2" Height="23" FontSize="14"></TextBox>
+                <TextBlock Margin="7" Grid.Row="2">Преподаватеоль:</TextBlock>
+                <ComboBox Margin="5,7,0,10" Grid.Row="2" Grid.Column="1" Name="cbTeacher_Id" SelectedValue="{Binding Teacher_Id}"  DisplayMemberPath="FIO"    SelectedValuePath="Id" Grid.ColumnSpan="2" Height="23" FontSize="14"></ComboBox>
                 <TextBox Margin="5,7,0,10" Grid.Column="1" Name="txtNumbersId" Visibility="Hidden" Text="{Binding Path=Id}" Grid.ColumnSpan="2"></TextBox>
 
             </Grid>

@@ -25,21 +25,32 @@ namespace TestTaskDomKofe.Pages
         }
         private void addStudent_Click(object sender, RoutedEventArgs e)
         {
-            if (txtFIO.Text != "")
+            try
             {
-                Students students = new Students();
-                students.FIO = txtFIO.Text;
-                students.YearOfStudy = Convert.ToDateTime(txtDateOfBirth.Text);
-                students.Address = txtAddress.Text;
-                students.Phone = txtPhone.Text;
-                students.Class_id = Convert.ToInt32(cbClass.SelectedValue);
-                Console.WriteLine(txtFIO.Text + " " + txtDateOfBirth + " " + txtAddress.Text + " " + txtPhone.Text + " " + cbClass.SelectedValue);
-                //Create a new Classe Manager that allows you to insert a new Class to database
-                StudentManager studentManager = new StudentManager();
-                int newClasseID = studentManager.InsertSubjects(students);
-                Console.WriteLine(newClasseID);
-                //обновить
-                lstStudent.ItemsSource = studentManager.GetStudents();
+                if (txtFIO.Text != "" && txtDateOfBirth.Text != "" && txtAddress.Text != "")             
+                    {
+                    Students students = new Students();
+                    students.FIO = txtFIO.Text;
+                    students.YearOfStudy = Convert.ToDateTime(txtDateOfBirth.SelectedDate.Value);
+                    students.Address = txtAddress.Text;
+                    students.Phone = txtPhone.Text;
+                    students.Class_id = Convert.ToInt32(cbClass.SelectedValue);      
+                    //Create a new Classe Manager that allows you to insert a new Class to database
+                    StudentManager studentManager = new StudentManager();
+                    int newClasseID = studentManager.InsertSubjects(students);
+                    Console.WriteLine(newClasseID);
+                    //обновить
+                    lstStudent.ItemsSource = studentManager.GetStudents();
+                }
+                else
+                {
+                    MessageBox.Show("Не все поля заполнены!");
+                }
+            }
+            catch(Exception ex)
+            {
+                
+                MessageBox.Show(ex.Message);
             }
         }
         private void UpdateStudent_Click(object sender, RoutedEventArgs e)
@@ -73,6 +84,13 @@ namespace TestTaskDomKofe.Pages
             lstStudent.ItemsSource = studentManager.GetStudents();
             ClassManager classeManager = new ClassManager();
             cbClass.ItemsSource = classeManager.GetClasse();
+            cbClassFilter.ItemsSource = classeManager.GetClasse();
+            //Учителя 
+            TeachersManager teachersManager = new TeachersManager();
+            cbTeachers.ItemsSource = teachersManager.GetTeachers();
+
+            SubjectsManager subjectsManager = new SubjectsManager();
+            cbSubject.ItemsSource = subjectsManager.GetSubjects();
         }
         private void RadioButtonName_Checked(object sender, RoutedEventArgs e)
         {   
@@ -100,16 +118,59 @@ namespace TestTaskDomKofe.Pages
 
         private void lstStudent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Узнаем средний балл
-            ExamManager examManager = new ExamManager();
-            var MiddlleAssessment = examManager.GetExam().Where(c => c.Students_id ==Convert.ToInt32(txtStudentId.Text)).Select(y=>y.Assessment);
-            var result =0;
-            if (MiddlleAssessment.Count() > 0)
+            try
             {
-                result=MiddlleAssessment.Sum() / MiddlleAssessment.Count();
+                ////Узнаем средний балл
+                ExamManager examManager = new ExamManager();
+                var MiddlleAssessment = examManager.GetExam().Where(c => c.Students_id == Convert.ToInt32(txtStudentId.Text)).Select(y => y.Assessment);
+                var result = 0;
+                if (MiddlleAssessment.Count() > 0)
+                {
+                    result = MiddlleAssessment.Sum() / MiddlleAssessment.Count();
+                }
+                Console.WriteLine(result);
+                txMiddle.Text = result.ToString();
             }
-            Console.WriteLine(result);
-            txMiddle.Text = result.ToString();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+              //  MessageBox.Show(ex.Message);
+            }
         }
+
+        private void cbTeachers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //StudentManager studentManager = new StudentManager();
+            //ClassManager classManager = new ClassManager();
+            //TeachersManager teachersManager = new TeachersManager();
+
+            //var result = from student in studentManager.GetStudents()
+            //             from classe in classManager.GetClasse()
+            //             from teachers in teachersManager.GetTeachers()
+            //             where student.Class_id == classe.Id && classe.Teacher_Id == teachers.Id && teachers.Id ==1
+            //             select student;
+            StudentManager studentManager = new StudentManager();
+            var result = studentManager.GetTeachers(Convert.ToInt32(cbTeachers.SelectedValue));
+            lstStudent.ItemsSource = result;
+        }
+
+        private void cbClassFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StudentManager studentManager = new StudentManager();
+            var result = studentManager.GetStudents().Where(x => x.Class_id == Convert.ToInt32(cbClassFilter.SelectedValue));
+            lstStudent.ItemsSource = result;
+        }
+
+        private void cbSubject_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StudentManager studentManager = new StudentManager();
+            Console.WriteLine(cbTeachers.SelectedValue);
+            var result = studentManager.GetSubjects(Convert.ToInt32(cbSubject.SelectedValue));
+
+
+            lstStudent.ItemsSource = result;
+        }
+
+        
     }
 }

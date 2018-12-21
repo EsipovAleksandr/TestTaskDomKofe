@@ -42,7 +42,7 @@ namespace TestTaskDomKofe.Pages
                 Console.WriteLine(newArticleID);
 
                 //обновить
-                lstExam.ItemsSource = examManager.GetExam();
+                lstExam.ItemsSource = examManager.GetExamModel();
             }
         }
 
@@ -51,7 +51,7 @@ namespace TestTaskDomKofe.Pages
             ExamManager examManager = new ExamManager();
             examManager.DeleteExam(Convert.ToInt16(tbExaId.Text));
             //обновить
-            lstExam.ItemsSource = examManager.GetExam();
+            lstExam.ItemsSource = examManager.GetExamModel();
         }
 
         private void addExam_Click(object sender, RoutedEventArgs e)
@@ -69,15 +69,15 @@ namespace TestTaskDomKofe.Pages
                 Console.WriteLine(newClasseID);
 
                 //обновить
-                lstExam.ItemsSource = examManager.GetExam();
+                lstExam.ItemsSource = examManager.GetExamModel();
             }
         }
 
-        private void lstExam_Loaded(object sender, RoutedEventArgs e)
+     
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             ExamManager examManager = new ExamManager();
-            lstExam.ItemsSource = examManager.GetExam();
-
+            lstExam.ItemsSource = examManager.GetExamModel();
             SubjectsManager subjectsManager = new SubjectsManager();
             cbSubject.ItemsSource = subjectsManager.GetSubjects();
             StudentManager studentManager = new StudentManager();

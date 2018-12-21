@@ -17,7 +17,7 @@ namespace TestTaskDomKofe.Model.Entities
         public string FIO { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public Nullable<System.DateTime> YearOfStudy { get; set; }
+        public DateTime YearOfStudy { get; set; }
         public int Class_id { get; set; }
 
         public virtual Classe Class { get; set; }

@@ -12,8 +12,8 @@ namespace TestTaskDomKofe.Model
         public int InsertClass(Classe classe)
         {
             //Create the SQL Query for inserting an class
-            string sqlQuery = String.Format("Insert into Class (Number) Values('{0}');"
-            +"Select @@Identity", classe.Numbers);
+            string sqlQuery = String.Format("Insert into Class (Number,Teacher_Id) Values('{0}','{1}');"
+            + "Select @@Identity", classe.Numbers,classe.Teacher_Id);
 
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);
@@ -60,6 +60,7 @@ namespace TestTaskDomKofe.Model
                     article = new Classe();
                     article.Id =Convert.ToInt32(dataReader["Id"]);
                     article.Numbers = dataReader["Number"].ToString();
+                    article.Teacher_Id = Convert.ToInt32(dataReader["Teacher_Id"]);
                     result.Add(article);
                 }
             }
@@ -97,12 +98,12 @@ namespace TestTaskDomKofe.Model
         {
 
             //Create the SQL Query for inserting an article
-            string createQuery = String.Format("Insert into Class (Number) Values('{0}');"
-                + "Select @@Identity", classe.Numbers);
+            string createQuery = String.Format("Insert into Class (Number,Teacher_Id) Values('{0}','{1}');"
+                + "Select @@Identity", classe.Numbers,classe.Teacher_Id);
 
             //Create the SQL Query for updating an article
-            string updateQuery = String.Format("Update Class SET Number='{0}' Where Id = {1};",
-                classe.Numbers, classe.Id);
+            string updateQuery = String.Format("Update Class SET Number='{0}' Teacher_Id='{1}' Where Id = {1};",
+                classe.Numbers,classe.Teacher_Id,classe.Id);
 
             //Create and open a connection to SQL Server 
             SqlConnection connection = new SqlConnection(DatabaseHelper.ConnectionString);

@@ -10,6 +10,7 @@ namespace TestTaskDomKofe.Model
     public class Classe
     {
         public int Id { set; get; }
+        public int Teacher_Id { set; get; }
         public string Numbers { set; get; }
 
 
