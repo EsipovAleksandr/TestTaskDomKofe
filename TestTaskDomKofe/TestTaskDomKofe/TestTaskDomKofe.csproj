@@ -38,11 +38,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialDesignColors, Version=1.0.0.14576, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignColors.1.1.1\lib\net45\MaterialDesignColors.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -95,19 +93,22 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\DateTimeToDateConverter.cs" />
+    <Compile Include="Model\Converter\DateTimeToDateConverter.cs" />
     <Compile Include="Model\Entities\Classe.cs" />
-    <Compile Include="Model\ClasseManager.cs" />
+    <Compile Include="Model\ManagerEntities\ClasseManager.cs" />
     <Compile Include="Model\DatabaseHelper.cs" />
+    <Compile Include="Model\Entities\Entity.cs" />
     <Compile Include="Model\Entities\Exam.cs" />
     <Compile Include="Model\Entities\ExamModel.cs" />
     <Compile Include="Model\Entities\Students.cs" />
     <Compile Include="Model\Entities\Subjects.cs" />
     <Compile Include="Model\Entities\Teachers.cs" />
-    <Compile Include="Model\ExamManager.cs" />
-    <Compile Include="Model\StudentManager.cs" />
-    <Compile Include="Model\SubjectsManager.cs" />
-    <Compile Include="Model\TeachersManager.cs" />
+    <Compile Include="Model\ManagerEntities\ExamManager.cs" />
+    <Compile Include="Model\ManagerEntities\IManager.cs" />
+    <Compile Include="Model\ManagerEntities\Manager.cs" />
+    <Compile Include="Model\ManagerEntities\StudentManager.cs" />
+    <Compile Include="Model\ManagerEntities\SubjectsManager.cs" />
+    <Compile Include="Model\ManagerEntities\TeachersManager.cs" />
     <Compile Include="Pages\ClassPage.xaml.cs">
       <DependentUpon>ClassPage.xaml</DependentUpon>
     </Compile>
@@ -140,7 +141,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

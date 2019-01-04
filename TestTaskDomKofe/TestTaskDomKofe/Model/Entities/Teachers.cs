@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TestTaskDomKofe.Model.Entities
 {
-   public class Teachers
+   public class Teachers: Entity
     {
-        public int Id { get; set; }
+
         public string FIO { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }

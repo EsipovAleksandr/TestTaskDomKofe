@@ -17,19 +17,17 @@ using TestTaskDomKofe.Model.Entities;
 
 namespace TestTaskDomKofe.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для ExamPage.xaml
-    /// </summary>
     public partial class ExamPage : Page
     {
+
         public ExamPage()
         {
             InitializeComponent();
+    
         }
-
         private void UpdateExam_Click(object sender, RoutedEventArgs e)
         {
-            if (tbExaId.Text != "")
+            if (tbExaId.Text != ""&&tbAssessment.Text!="")
             {
                 Exam exam = new Exam();
                 exam.Id = Convert.ToInt32(tbExaId.Text);
@@ -45,35 +43,32 @@ namespace TestTaskDomKofe.Pages
                 lstExam.ItemsSource = examManager.GetExamModel();
             }
         }
-
-        private void deleteExam_Click(object sender, RoutedEventArgs e)
+        private void DeleteExam_Click(object sender, RoutedEventArgs e)
         {
             ExamManager examManager = new ExamManager();
-            examManager.DeleteExam(Convert.ToInt16(tbExaId.Text));
+            examManager.Delete("Exam",Convert.ToInt16(tbExaId.Text));
             //обновить
             lstExam.ItemsSource = examManager.GetExamModel();
         }
-
-        private void addExam_Click(object sender, RoutedEventArgs e)
+        private void AddExam_Click(object sender, RoutedEventArgs e)
         {
-            if (tbAssessment.Text != "")
+            if (cbSubject.Text != ""&&cbStudents.Text!="" && tbAssessment.Text != "")
             {
                 Exam exam = new Exam();
                 exam.Students_id = Convert.ToInt32(cbStudents.SelectedValue);
                 exam.Subjects_id = Convert.ToInt32(cbSubject.SelectedValue);
                 exam.Assessment = Convert.ToInt32(tbAssessment.Text);
                 Console.WriteLine(cbStudents.SelectedValue + " " + cbSubject.SelectedValue + " " + tbAssessment.Text);
-                //Create a new Classe Manager that allows you to insert a new Class to database
                 ExamManager examManager = new ExamManager();
                 int newClasseID = examManager.InsertExam(exam);
                 Console.WriteLine(newClasseID);
-
+                cbStudents.Text = null;
+                cbSubject.Text = null;
+                tbAssessment.Text = "";
                 //обновить
                 lstExam.ItemsSource = examManager.GetExamModel();
             }
-        }
-
-     
+        }    
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             ExamManager examManager = new ExamManager();

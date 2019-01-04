@@ -13,83 +13,70 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TestTaskDomKofe.Model;
+using TestTaskDomKofe.Model.Entities;
 
 namespace TestTaskDomKofe.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для ClassPage.xaml
-    /// </summary>
     public partial class ClassPage : Page
     {
         public ClassPage()
         {
             InitializeComponent();
         }
-
-        private void addClass_Click(object sender, RoutedEventArgs e)
+        private void AddClass_Click(object sender, RoutedEventArgs e)
         {
-            if (txtNumbers.Text != "")
-            {
+            if (txtNumbers.Text != "")           {
                 Classe newClasse = new Classe();
                 newClasse.Numbers = txtNumbers.Text;
                 newClasse.Teacher_Id = Convert.ToInt16(cbTeacher_Id.SelectedValue);
                 txtNumbers.Text = "";
-                //Create a new Classe Manager that allows you to insert a new Class to database
+                cbTeacher_Id.SelectedValue = null;
                 ClassManager classeManager = new ClassManager();
                 int newClasseID = classeManager.InsertClass(newClasse);
-
+                Console.WriteLine(newClasseID);
                 //обновить
                 lstClass.ItemsSource = classeManager.GetClasse();
             }
-
         }
-
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             ClassManager articlesManager = new ClassManager();
-
             lstClass.ItemsSource = articlesManager.GetClasse();
-
             TeachersManager teachersManager = new TeachersManager();
             cbTeacher_Id.ItemsSource = teachersManager.GetTeachers();
 
         }
-
-        private void deleteClass_Click(object sender, RoutedEventArgs e)
+        private void DeleteClass_Click(object sender, RoutedEventArgs e)
         {
             StudentManager studentManager =new StudentManager();
             var id = studentManager.GetStudents().Where(x => x.Class_id == Convert.ToInt32(txtNumbersId.Text)).FirstOrDefault();
-            Console.WriteLine(id);
-          
+            Console.WriteLine(id);          
           if (id==null)
             {
                 ClassManager articlesManager = new ClassManager();
-                articlesManager.DeleteClasse(Convert.ToInt16(txtNumbersId.Text));
+                articlesManager.Delete("Class",Convert.ToInt16(txtNumbersId.Text));
                 //обновить
-                lstClass.ItemsSource = articlesManager.GetClasse();
+                 lstClass.ItemsSource = articlesManager.GetClasse();               
             }
             else
             {
                 MessageBox.Show("Удалите сначало учеников с данного класса");
             }
         }
-
         private void UpdateClass_Click(object sender, RoutedEventArgs e)
         {
             if (txtNumbersId.Text != "" && txtNumbers.Text!= "")
             {
-                Classe newArticle = new Classe();
-                newArticle.Id = Convert.ToInt16(txtNumbersId.Text);
-                newArticle.Numbers = txtNumbers.Text;
+                Classe newClasse = new Classe();
+                newClasse.Id = Convert.ToInt16(txtNumbersId.Text);
+                newClasse.Numbers = txtNumbers.Text;
                 ClassManager classeManager = new ClassManager();
-                int newArticleID = classeManager.UpdateClasse(newArticle);
-                Console.WriteLine(newArticleID);
+                int newClasseID = classeManager.UpdateClasse(newClasse);
+                Console.WriteLine(newClasseID);
                 //обновить
                 lstClass.ItemsSource = classeManager.GetClasse();
             }
             
-        }
-
-       
+        }     
     }
 }

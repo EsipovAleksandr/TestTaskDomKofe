@@ -17,9 +17,6 @@ using TestTaskDomKofe.Model.Entities;
 
 namespace TestTaskDomKofe.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для TeachersPage.xaml
-    /// </summary>
     public partial class TeachersPage : Page
     {
         public TeachersPage()
@@ -48,7 +45,6 @@ namespace TestTaskDomKofe.Pages
                     teachers.Phone = txtPhone.Text;
                     teachers.Subjects_id = Convert.ToInt32(cbSubject.SelectedValue);
                     Console.WriteLine(teachers.DateOfBirth.ToString("yyyy-MM-dd"));
-                    //Create a new Classe Manager that allows you to insert a new Class to database
                     TeachersManager teachersManagercs = new TeachersManager();
                     int newClasseID = teachersManagercs.InsertSubjects(teachers);
                     Console.WriteLine(newClasseID);
@@ -69,10 +65,9 @@ namespace TestTaskDomKofe.Pages
         }
 
         private void deleteTeachers(object sender, RoutedEventArgs e)
-        {
-         
+        {   
             TeachersManager teachersManager = new TeachersManager();
-            teachersManager.DeleteTeachers(Convert.ToInt16(txtTeachersId.Text));
+            teachersManager.Delete("Teachers", Convert.ToInt32(txtTeachersId.Text));
             //обновить
             lstTeachers.ItemsSource = teachersManager.GetTeachers();
         }

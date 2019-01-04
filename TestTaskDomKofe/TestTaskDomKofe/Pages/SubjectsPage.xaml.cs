@@ -17,9 +17,6 @@ using TestTaskDomKofe.Model.Entities;
 
 namespace TestTaskDomKofe.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для SubjectsPage.xaml
-    /// </summary>
     public partial class SubjectsPage : Page
     {
         public SubjectsPage()
@@ -34,7 +31,6 @@ namespace TestTaskDomKofe.Pages
                 Subjects subjects = new Subjects();
                 subjects.SubjectName = txtNumbers.Text;
                 txtNumbers.Text = "";
-                //Create a new Classe Manager that allows you to insert a new Class to database
                 SubjectsManager subjectsManager = new SubjectsManager();
                 int newSubjectId = subjectsManager.InsertSubjects(subjects);
                 Console.WriteLine(newSubjectId);
@@ -43,15 +39,13 @@ namespace TestTaskDomKofe.Pages
                 lstSubjects.ItemsSource = subjectsManager.GetSubjects();
             }
         }
-
         private void deleteSubjec_Click(object sender, RoutedEventArgs e)
         {
             SubjectsManager subjectsManager = new SubjectsManager();
-            subjectsManager.DeleteSubjects(Convert.ToInt16(txtNumbersId.Text));
+            subjectsManager.Delete("Subjects",Convert.ToInt16(txtNumbersId.Text));
             //обновить
             lstSubjects.ItemsSource = subjectsManager.GetSubjects();
         }
-
         private void UpdateSubjec_Click(object sender, RoutedEventArgs e)
         {
             if (txtNumbersId.Text != "" && txtNumbers.Text != "")
@@ -66,7 +60,6 @@ namespace TestTaskDomKofe.Pages
                 lstSubjects.ItemsSource = subjectsManager.GetSubjects();
             }
         }
-
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             SubjectsManager subjectsManager = new SubjectsManager();

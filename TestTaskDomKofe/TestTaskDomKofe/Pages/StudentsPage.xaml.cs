@@ -74,7 +74,7 @@ namespace TestTaskDomKofe.Pages
         private void deleteStudent(object sender, RoutedEventArgs e)
         {
             StudentManager studentManager = new StudentManager();
-            studentManager.DeleteStudents(Convert.ToInt16(txtStudentId.Text));
+            studentManager.Delete("Students",Convert.ToInt16(txtStudentId.Text));
             //обновить
             lstStudent.ItemsSource = studentManager.GetStudents();
         }
@@ -97,25 +97,21 @@ namespace TestTaskDomKofe.Pages
             StudentManager studentManager = new StudentManager();
             lstStudent.ItemsSource = studentManager.GetStudents().OrderBy(x => x.FIO);
         }
-
         private void RadioButtonYear_Checked(object sender, RoutedEventArgs e)
         {
             StudentManager studentManager = new StudentManager();
             lstStudent.ItemsSource = studentManager.GetStudents().OrderBy(x => x.YearOfStudy);
         }
-
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             StudentManager studentManager = new StudentManager();
             lstStudent.ItemsSource = studentManager.GetStudents();
         }
-
         private void RadioButtonСlass_Checked(object sender, RoutedEventArgs e)
         {
             StudentManager studentManager = new StudentManager();
             lstStudent.ItemsSource = studentManager.GetStudents().OrderBy(x => x.Class_id);
-        }
-
+        }   
         private void lstStudent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -137,7 +133,6 @@ namespace TestTaskDomKofe.Pages
               //  MessageBox.Show(ex.Message);
             }
         }
-
         private void cbTeachers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //StudentManager studentManager = new StudentManager();
@@ -153,24 +148,18 @@ namespace TestTaskDomKofe.Pages
             var result = studentManager.GetTeachers(Convert.ToInt32(cbTeachers.SelectedValue));
             lstStudent.ItemsSource = result;
         }
-
         private void cbClassFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             StudentManager studentManager = new StudentManager();
             var result = studentManager.GetStudents().Where(x => x.Class_id == Convert.ToInt32(cbClassFilter.SelectedValue));
             lstStudent.ItemsSource = result;
         }
-
         private void cbSubject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             StudentManager studentManager = new StudentManager();
             Console.WriteLine(cbTeachers.SelectedValue);
             var result = studentManager.GetSubjects(Convert.ToInt32(cbSubject.SelectedValue));
-
-
             lstStudent.ItemsSource = result;
-        }
-
-        
+        }     
     }
 }

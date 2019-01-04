@@ -69,8 +69,8 @@
 
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,2,5,10">
-                <Button Margin="2,0,0,0"  Padding="2" Content="добавить" Click="addExam_Click" Height="22" VerticalAlignment="Top"/>
-                <Button Margin="2,0,0,0"  Click="deleteExam_Click" Padding="2" Content="Удалить" />
+                <Button Margin="2,0,0,0"  Padding="2" Content="добавить" Click="AddExam_Click" Height="22" VerticalAlignment="Top"/>
+                <Button Margin="2,0,0,0"  Click="DeleteExam_Click" Padding="2" Content="удалить" />
                 <Button Margin="2,0,0,0"  Click="UpdateExam_Click" Padding="2" Content="редактировать" />
             </StackPanel>
         </Grid>
@@ -92,7 +92,7 @@
                 <TextBlock Margin="7" Grid.Column="0"  Grid.Row="1">Имя Студента:</TextBlock>
                 <ComboBox  Margin="7" Grid.Row="1" Name="cbStudents"   Grid.Column="1"   SelectedValue="{Binding Students_id}"   DisplayMemberPath="FIO"    SelectedValuePath="Id" Height="23" />
                 <TextBlock Margin="7" Grid.Row="2" Grid.Column="0">Оценка:</TextBlock>
-                <TextBox  Margin="7" Grid.Row="4"   Name="tbAssessment"  Grid.Column="1"   Text="{Binding Assessment}" Height="23"/>
+                <TextBox  Margin="7" Grid.Row="4"   Name="tbAssessment"  Grid.Column="1"   Text="{Binding Assessment,ValidatesOnExceptions=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" Height="23"/>
                 <TextBox Margin="5,7,0,10" Grid.Column="1" Name="tbExaId" Visibility="Hidden" Text="{Binding Path=Id}" Grid.ColumnSpan="2" ></TextBox>
             </Grid>
         </Border>

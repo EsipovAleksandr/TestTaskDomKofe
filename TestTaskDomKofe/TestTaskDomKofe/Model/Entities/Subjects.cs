@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestTaskDomKofe.Model.Entities
 {
-    public  class Subjects
+    public  class Subjects: Entity
     {
         public Subjects()
         {
@@ -14,7 +14,7 @@ namespace TestTaskDomKofe.Model.Entities
             this.Teachers = new HashSet<Teachers>();
         }
 
-        public int Id { get; set; }
+     
         public string SubjectName { get; set; }
 
         public virtual ICollection<Exam> Exam { get; set; }

@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestTaskDomKofe.Model.Entities
 {
-   public class Students
+    public class Students: Entity
     {
         public Students()
         {
             this.Exam = new HashSet<Exam>();
         }
 
-        public int Id { get; set; }
+   
         public string FIO { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }

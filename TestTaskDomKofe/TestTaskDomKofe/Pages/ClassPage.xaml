@@ -55,8 +55,8 @@
             </ListBox>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,2,5,10">
-                <Button Margin="2,0,0,0"   Padding="2" Content="добавить" Click="addClass_Click"/>
-                <Button Margin="2,0,0,0"  Click="deleteClass_Click" Padding="2" Content="Удалить" />
+                <Button Margin="2,0,0,0"   Padding="2" Content="добавить" Click="AddClass_Click"/>
+                <Button Margin="2,0,0,0"  Click="DeleteClass_Click" Padding="2" Content="Удалить" />
                 <Button Margin="2,0,0,0"  Click="UpdateClass_Click" Padding="2" Content="редактировать" />
             </StackPanel>
         </Grid>
