@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestTaskDomKofe.Model.Entities;
 
 namespace TestTaskDomKofe.Model
 {
-   public class SubjectsManager: Manager
+    public class SubjectsManager: Manager
     {
         public int InsertSubjects(Subjects subjects)
         {
-            string sqlQuery = String.Format("Insert into  Subjects (SubjectName) Values('{0}');"
+            string sqlQuery = String.Format("Insert into  Subjects (SubjectName) Values(N'{0}');"
         + "Select @@Identity", subjects.SubjectName);
             return base.Insert(sqlQuery);
         } 
         public int UpdateSubjects(Subjects subjects)
         {
-            string createQuery = String.Format("Insert into Subjects (SubjectsName) Values('{0}');"
+            string createQuery = String.Format("Insert into Subjects (SubjectsName) Values(N'{0}');"
                 + "Select @@Identity", subjects.SubjectName);
             string updateQuery = String.Format("Update Subjects SET SubjectName='{0}' Where Id = {1};",
                 subjects.SubjectName, subjects.Id);

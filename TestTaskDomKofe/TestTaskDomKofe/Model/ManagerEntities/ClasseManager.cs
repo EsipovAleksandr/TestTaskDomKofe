@@ -20,7 +20,7 @@ namespace TestTaskDomKofe.Model
         {
             string createQuery = String.Format("Insert into Class (Number,Teacher_Id) Values('{0}','{1}');"
                 + "Select @@Identity", classe.Numbers, classe.Teacher_Id);
-            string updateQuery = String.Format("Update Class SET Number='{0}' Teacher_Id='{1}' Where Id = {1};",
+            string updateQuery = String.Format("Update Class SET Number='{0}',Teacher_Id='{1}' Where Id = {2};",
                 classe.Numbers, classe.Teacher_Id, classe.Id);
             return base.Update(classe, createQuery, updateQuery);
         }

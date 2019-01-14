@@ -8,7 +8,6 @@ namespace TestTaskDomKofe.Model.Entities
 {
    public class Exam: Entity
     {
-
         public int Subjects_id { get; set; }
         public int Students_id { get; set; }
         public int Assessment { get; set; }

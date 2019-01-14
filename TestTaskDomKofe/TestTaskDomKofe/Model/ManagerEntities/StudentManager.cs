@@ -24,21 +24,22 @@ namespace TestTaskDomKofe.Model
         public List<Students> GetStudents()
         {
             List<Students> result = new List<Students>();
-            string sqlQuery = String.Format("select * from Students");
+            string sqlQuery = String.Format("select s.Id ,s.FIO,s.Address,s.Phone,s.YearOfStudy,s.Class_id,c.Number from Students s, Class c where  s.Class_id = c.Id");
             SqlDataReader dataReader = base.Get(sqlQuery);
-            Students article = null;
+            Students students = null;
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
                 {
-                    article = new Students();
-                    article.Id = Convert.ToInt32(dataReader["Id"]);
-                    article.FIO = dataReader["FIO"].ToString();
-                    article.YearOfStudy = Convert.ToDateTime(dataReader["YearOfStudy"].ToString());
-                    article.Address = dataReader["Address"].ToString();
-                    article.Phone = dataReader["Phone"].ToString();
-                    article.Class_id = Convert.ToInt32(dataReader["Class_id"]);
-                    result.Add(article);
+                    students = new Students();
+                    students.Id = Convert.ToInt32(dataReader["Id"]);
+                    students.FIO = dataReader["FIO"].ToString();
+                    students.YearOfStudy = Convert.ToDateTime(dataReader["YearOfStudy"].ToString());
+                    students.Address = dataReader["Address"].ToString();
+                    students.Phone = dataReader["Phone"].ToString();
+                    students.ClassName = Convert.ToInt32(dataReader["Number"]);
+                    students.Class_id = Convert.ToInt32(dataReader["Class_id"]);
+                    result.Add(students);
                 }
             }
 

@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TestTaskDomKofe.Model;
 using TestTaskDomKofe.Model.Entities;
+using TestTaskDomKofe.Pages.Validation;
 
 namespace TestTaskDomKofe.Pages
 {
@@ -23,39 +14,31 @@ namespace TestTaskDomKofe.Pages
         {
             InitializeComponent();
         }
-        private void addStudent_Click(object sender, RoutedEventArgs e)
+        private void AddStudent_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (ValidationPages.CheckValue(txtDateOfBirth, txtFIO, txtPhone, txtAddress, cbClass, txtError,
+                  "Введите дату", "Введите Фамилию Имя Отчество",
+                  "Напишите свой номер телефона", "Напишите адрес", "Выберите класс"))
             {
-                if (txtFIO.Text != "" && txtDateOfBirth.Text != "" && txtAddress.Text != "")             
-                    {
-                    Students students = new Students();
+                Students students = new Students();
                     students.FIO = txtFIO.Text;
                     students.YearOfStudy = Convert.ToDateTime(txtDateOfBirth.SelectedDate.Value);
                     students.Address = txtAddress.Text;
                     students.Phone = txtPhone.Text;
                     students.Class_id = Convert.ToInt32(cbClass.SelectedValue);      
-                    //Create a new Classe Manager that allows you to insert a new Class to database
                     StudentManager studentManager = new StudentManager();
                     int newClasseID = studentManager.InsertSubjects(students);
                     Console.WriteLine(newClasseID);
                     //обновить
                     lstStudent.ItemsSource = studentManager.GetStudents();
                 }
-                else
-                {
-                    MessageBox.Show("Не все поля заполнены!");
-                }
-            }
-            catch(Exception ex)
-            {
-                
-                MessageBox.Show(ex.Message);
-            }
+             
         }
         private void UpdateStudent_Click(object sender, RoutedEventArgs e)
         {
-            if (txtStudentId.Text != "")
+            if (txtStudentId.Text != "" && ValidationPages.CheckValue(txtDateOfBirth, txtFIO, txtPhone, txtAddress, cbClass, txtError,
+                   "Введите дату", "Введите Фамилию Имя Отчество",
+                   "Напишите свой номер телефона", "Напишите адрес", "Выберите класс"))              
             {
                 Students students = new Students();
                 students.Id = Convert.ToInt16(txtStudentId.Text);
@@ -71,12 +54,15 @@ namespace TestTaskDomKofe.Pages
                 lstStudent.ItemsSource = studentManager.GetStudents();
             }
         }
-        private void deleteStudent(object sender, RoutedEventArgs e)
+        private void DeleteStudent(object sender, RoutedEventArgs e)
         {
-            StudentManager studentManager = new StudentManager();
-            studentManager.Delete("Students",Convert.ToInt16(txtStudentId.Text));
-            //обновить
-            lstStudent.ItemsSource = studentManager.GetStudents();
+            if (txtStudentId.Text != "")
+            {
+                StudentManager studentManager = new StudentManager();
+                studentManager.Delete("Students", Convert.ToInt16(txtStudentId.Text));
+                //обновить
+                lstStudent.ItemsSource = studentManager.GetStudents();
+            }
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -88,7 +74,7 @@ namespace TestTaskDomKofe.Pages
             //Учителя 
             TeachersManager teachersManager = new TeachersManager();
             cbTeachers.ItemsSource = teachersManager.GetTeachers();
-
+            //Предметы
             SubjectsManager subjectsManager = new SubjectsManager();
             cbSubject.ItemsSource = subjectsManager.GetSubjects();
         }
@@ -124,13 +110,11 @@ namespace TestTaskDomKofe.Pages
                 {
                     result = MiddlleAssessment.Sum() / MiddlleAssessment.Count();
                 }
-                Console.WriteLine(result);
                 txMiddle.Text = result.ToString();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-              //  MessageBox.Show(ex.Message);
             }
         }
         private void cbTeachers_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -138,7 +122,6 @@ namespace TestTaskDomKofe.Pages
             //StudentManager studentManager = new StudentManager();
             //ClassManager classManager = new ClassManager();
             //TeachersManager teachersManager = new TeachersManager();
-
             //var result = from student in studentManager.GetStudents()
             //             from classe in classManager.GetClasse()
             //             from teachers in teachersManager.GetTeachers()
@@ -157,7 +140,6 @@ namespace TestTaskDomKofe.Pages
         private void cbSubject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             StudentManager studentManager = new StudentManager();
-            Console.WriteLine(cbTeachers.SelectedValue);
             var result = studentManager.GetSubjects(Convert.ToInt32(cbSubject.SelectedValue));
             lstStudent.ItemsSource = result;
         }     

@@ -86,14 +86,16 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Margin="7" Grid.Column="0"  Grid.Row="0">Название предмета:</TextBlock>
                 <ComboBox  Margin="7" Grid.Row="0"  Name="cbSubject"  Grid.Column="1"  SelectedValue="{Binding Subjects_id }"  DisplayMemberPath="SubjectName"    SelectedValuePath="Id" Height="23" />
                 <TextBlock Margin="7" Grid.Column="0"  Grid.Row="1">Имя Студента:</TextBlock>
                 <ComboBox  Margin="7" Grid.Row="1" Name="cbStudents"   Grid.Column="1"   SelectedValue="{Binding Students_id}"   DisplayMemberPath="FIO"    SelectedValuePath="Id" Height="23" />
                 <TextBlock Margin="7" Grid.Row="2" Grid.Column="0">Оценка:</TextBlock>
-                <TextBox  Margin="7" Grid.Row="4"   Name="tbAssessment"  Grid.Column="1"   Text="{Binding Assessment,ValidatesOnExceptions=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" Height="23"/>
+                <TextBox  Margin="7" Grid.Row="2"   Name="tbAssessment"  Grid.Column="1" PreviewTextInput="NumberValidationTextBox"  Text="{Binding Assessment,ValidatesOnExceptions=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" Height="23"/>
                 <TextBox Margin="5,7,0,10" Grid.Column="1" Name="tbExaId" Visibility="Hidden" Text="{Binding Path=Id}" Grid.ColumnSpan="2" ></TextBox>
+                <TextBlock Name="txtError"  Grid.Column="1" Grid.Row="3" Foreground="#FFDE0000" FontSize="16" FontFamily="Arial"></TextBlock>
             </Grid>
         </Border>
     </Grid>

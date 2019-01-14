@@ -15,6 +15,7 @@ namespace TestTaskDomKofe.Model.Entities
         public string Address { get; set; }
         public string Phone { get; set; }
         public DateTime YearOfStudy { get; set; }
+        public int ClassName { get; set; }
         public int Class_id { get; set; }
 
         public virtual Classe Class { get; set; }

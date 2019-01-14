@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TestTaskDomKofe.Model;
 using TestTaskDomKofe.Model.Entities;
+using TestTaskDomKofe.Pages.Validation;
 
 namespace TestTaskDomKofe.Pages
 {
@@ -22,59 +14,50 @@ namespace TestTaskDomKofe.Pages
         public TeachersPage()
         {
             InitializeComponent();
-        }
-
+        }      
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             TeachersManager teachersManagercs = new TeachersManager();
             lstTeachers.ItemsSource = teachersManagercs.GetTeachers();
             SubjectsManager subjectsManager = new SubjectsManager();
             cbSubject.ItemsSource = subjectsManager.GetSubjects();
+            
         }
-
-        private void addTeachers(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (txtFIO.Text != "" && txtDateOfBirth.Text != "" && txtAddress.Text != "" && cbSubject.Text != "")
-                {
+        private void AddTeachers(object sender, RoutedEventArgs e)
+        {           
+            if (ValidationPages.CheckValue(txtDateOfBirth,txtFIO,txtPhone,txtAddress,cbSubject,txtError,
+                "Введите дату", "Введите Фамилию Имя Отчество",
+                "Напишите свой номер телефона","Напишите адрес", "Выберите предмет")) { 
                     Teachers teachers = new Teachers();
                     teachers.FIO = txtFIO.Text;
                     teachers.DateOfBirth = Convert.ToDateTime(txtDateOfBirth.Text);
                     teachers.Address = txtAddress.Text;
                     teachers.Phone = txtPhone.Text;
                     teachers.Subjects_id = Convert.ToInt32(cbSubject.SelectedValue);
-                    Console.WriteLine(teachers.DateOfBirth.ToString("yyyy-MM-dd"));
                     TeachersManager teachersManagercs = new TeachersManager();
                     int newClasseID = teachersManagercs.InsertSubjects(teachers);
                     Console.WriteLine(newClasseID);
                     //обновить
                     lstTeachers.ItemsSource = teachersManagercs.GetTeachers();
                 }
-                else
-                {
-                    MessageBox.Show("Не все поля заполнены!");
-
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show(ex.Message);
-            }
+             
         }
-
-        private void deleteTeachers(object sender, RoutedEventArgs e)
-        {   
-            TeachersManager teachersManager = new TeachersManager();
-            teachersManager.Delete("Teachers", Convert.ToInt32(txtTeachersId.Text));
-            //обновить
-            lstTeachers.ItemsSource = teachersManager.GetTeachers();
-        }
-
-        private void UpdateTeachers_Click(object sender, RoutedEventArgs e)
+        private void DeleteTeachers(object sender, RoutedEventArgs e)
         {
             if (txtTeachersId.Text != "")
+            {
+                TeachersManager teachersManager = new TeachersManager();
+                teachersManager.Delete("Teachers", Convert.ToInt32(txtTeachersId.Text));
+                //обновить
+                lstTeachers.ItemsSource = teachersManager.GetTeachers();
+            }
+        }
+        private void UpdateTeachers_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtTeachersId.Text != ""&& ValidationPages.CheckValue(txtDateOfBirth, txtFIO,
+                txtPhone, txtAddress, cbSubject, txtError, "Введите дату",
+                "Введите Фамилию Имя Отчество", "Напишите свой номер телефона",
+                "Напишите адрес", "Выберите предмет"))
             {
                 Teachers teachers = new Teachers();
                 teachers.Id = Convert.ToInt32(txtTeachersId.Text);
@@ -82,9 +65,7 @@ namespace TestTaskDomKofe.Pages
                 teachers.DateOfBirth = Convert.ToDateTime(txtDateOfBirth.Text);
                 teachers.Address = txtAddress.Text;
                 teachers.Phone = txtPhone.Text;
-                teachers.Subjects_id = Convert.ToInt32(cbSubject.SelectedValue);
-         
-               
+                teachers.Subjects_id = Convert.ToInt32(cbSubject.SelectedValue);                    
                 TeachersManager teachersManagercs = new TeachersManager();
                 int newArticleID = teachersManagercs.UpdateTeachers(teachers);
                 Console.WriteLine(newArticleID);
@@ -93,7 +74,11 @@ namespace TestTaskDomKofe.Pages
             }
 
         }
-
-   
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {      
+            Regex regex = new Regex("[^0-9.+]");
+            e.Handled = regex.IsMatch(e.Text);
+     
+        }
     }
 }

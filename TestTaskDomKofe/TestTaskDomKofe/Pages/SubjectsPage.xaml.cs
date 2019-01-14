@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TestTaskDomKofe.Model;
 using TestTaskDomKofe.Model.Entities;
+using TestTaskDomKofe.Pages.Validation;
 
 namespace TestTaskDomKofe.Pages
 {
@@ -23,36 +15,37 @@ namespace TestTaskDomKofe.Pages
         {
             InitializeComponent();
         }
-
-        private void addSubjec_Click(object sender, RoutedEventArgs e)
+        private void AddSubjec_Click(object sender, RoutedEventArgs e)
         {
-            if (txtNumbers.Text != "")
+            if (ValidationPages.CheckValue(tbSubject,txtError, "Введите название предмета"))
             {
                 Subjects subjects = new Subjects();
-                subjects.SubjectName = txtNumbers.Text;
-                txtNumbers.Text = "";
+                subjects.SubjectName = tbSubject.Text;
+                tbSubjectId.Text = "";
                 SubjectsManager subjectsManager = new SubjectsManager();
                 int newSubjectId = subjectsManager.InsertSubjects(subjects);
                 Console.WriteLine(newSubjectId);
-
                 //обновить
                 lstSubjects.ItemsSource = subjectsManager.GetSubjects();
             }
         }
-        private void deleteSubjec_Click(object sender, RoutedEventArgs e)
+        private void DeleteSubjec_Click(object sender, RoutedEventArgs e)
         {
-            SubjectsManager subjectsManager = new SubjectsManager();
-            subjectsManager.Delete("Subjects",Convert.ToInt16(txtNumbersId.Text));
-            //обновить
-            lstSubjects.ItemsSource = subjectsManager.GetSubjects();
+            if (tbSubjectId.Text != "")
+            {
+                SubjectsManager subjectsManager = new SubjectsManager();
+                subjectsManager.Delete("Subjects", Convert.ToInt16(tbSubjectId.Text));
+                //обновить
+                lstSubjects.ItemsSource = subjectsManager.GetSubjects();
+            }
         }
         private void UpdateSubjec_Click(object sender, RoutedEventArgs e)
         {
-            if (txtNumbersId.Text != "" && txtNumbers.Text != "")
+            if (tbSubjectId.Text !=""&& ValidationPages.CheckValue(tbSubject, txtError, "Введите название предмета"))
             {
                 Subjects subjects = new Subjects();
-                subjects.Id = Convert.ToInt16(txtNumbersId.Text);
-                subjects.SubjectName = txtNumbers.Text;
+                subjects.Id = Convert.ToInt16(tbSubjectId.Text);
+                subjects.SubjectName = tbSubject.Text;
                 SubjectsManager subjectsManager = new SubjectsManager();
                 int newArticleID = subjectsManager.UpdateSubjects(subjects);
                 Console.WriteLine(newArticleID);
@@ -63,8 +56,12 @@ namespace TestTaskDomKofe.Pages
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             SubjectsManager subjectsManager = new SubjectsManager();
-
             lstSubjects.ItemsSource = subjectsManager.GetSubjects();
+        }
+        private void LettersValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

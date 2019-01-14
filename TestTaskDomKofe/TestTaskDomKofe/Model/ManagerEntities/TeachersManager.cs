@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestTaskDomKofe.Model.Entities;
 
 namespace TestTaskDomKofe.Model
 {
-  public  class TeachersManager: Manager
+    public  class TeachersManager: Manager
     {
         public int InsertSubjects(Teachers teachers)
         {   
@@ -29,7 +26,7 @@ namespace TestTaskDomKofe.Model
         public List<Teachers> GetTeachers()
         {
             List<Teachers> result = new List<Teachers>();
-            string sqlQuery = String.Format("select * from Teachers");
+            string sqlQuery = String.Format("SELECT first.Id,first.FIO,first.DateOfBirth,first.Address,first.Phone,first.Subjects_id,second.SubjectName from Teachers first, Subjects second where first.Subjects_id = second.Id");
             SqlDataReader dataReader = base.Get(sqlQuery);
             Teachers article = null;
             if (dataReader.HasRows)
@@ -43,6 +40,7 @@ namespace TestTaskDomKofe.Model
                     article.Address = dataReader["Address"].ToString();
                     article.Phone = dataReader["Phone"].ToString();
                     article.Subjects_id = Convert.ToInt32(dataReader["Subjects_id"]);
+                    article.SubjectName = dataReader["SubjectName"].ToString();
                     result.Add(article);
                 }
             }

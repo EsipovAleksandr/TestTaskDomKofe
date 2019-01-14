@@ -4,6 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TestTaskDomKofe.Pages"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:s="clr-namespace:System;assembly=mscorlib"
       xmlns:databinding="clr-namespace:TestTaskDomKofe.Model"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -36,7 +38,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                                 <GridViewColumn.Header>
-                                    <TextBlock Text="Id"></TextBlock>
+                                    <TextBlock Text=" Id "></TextBlock>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                             <GridViewColumn>
@@ -46,7 +48,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                                 <GridViewColumn.Header>
-                                    <TextBlock Text="FIO"></TextBlock>
+                                    <TextBlock Text="ФИО"></TextBlock>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                             <GridViewColumn>
@@ -56,7 +58,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                                 <GridViewColumn.Header>
-                                    <TextBlock Text="YearOfStudy"></TextBlock>
+                                    <TextBlock Text="Начало обучения"></TextBlock>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                             <GridViewColumn>
@@ -66,7 +68,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                                 <GridViewColumn.Header>
-                                    <TextBlock Text="Phone"></TextBlock>
+                                    <TextBlock Text="Телефон"></TextBlock>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                             <GridViewColumn>
@@ -76,17 +78,17 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                                 <GridViewColumn.Header>
-                                    <TextBlock Text="Address"></TextBlock>
+                                    <TextBlock Text="Адрес"></TextBlock>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                             <GridViewColumn>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Class_id}"></TextBlock>
+                                        <TextBlock Text="{Binding ClassName}"></TextBlock>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                                 <GridViewColumn.Header>
-                                    <TextBlock Text="Class_id"></TextBlock>
+                                    <TextBlock Text="Класс"></TextBlock>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                         </GridView.Columns>
@@ -108,9 +110,10 @@
                 <ComboBox Name="cbSubject" Width="150"    DisplayMemberPath="SubjectName"    SelectedValuePath="Id" SelectionChanged="cbSubject_SelectionChanged" />
                 <ComboBox Name="cbTeachers" Width="200" SelectionChanged="cbTeachers_SelectionChanged"   DisplayMemberPath="FIO"    SelectedValuePath="Id" />
                 <ComboBox Name="cbClassFilter" Width="150"  DisplayMemberPath="Numbers"    SelectedValuePath="Id" SelectionChanged="cbClassFilter_SelectionChanged" />
-                <Button Margin="2,0,0,0"  Click="addStudent_Click" Padding="2" Content="Добавить" />
+                <Button Margin="2,0,0,0"  Click="AddStudent_Click" Padding="2" Content="Добавить" />
+                <Button Margin="2,0,0,0"  Click="DeleteStudent" Padding="2" Content="Удалить" />
                 <Button Margin="2,0,0,0"  Padding="2" Content="Редактировать" Click="UpdateStudent_Click"/>
-                <Button Margin="2,0,0,0"  Click="deleteStudent" Padding="2" Content="Удалить" />
+               
 
             </StackPanel>
         </Grid>
@@ -130,8 +133,8 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-
                 <TextBlock Margin="7">ФИО:</TextBlock>
                 <TextBox Margin="5" Grid.Column="1" Name="txtFIO" Text="{Binding Path=FIO}"></TextBox>
                 <TextBlock Margin="7" Grid.Row="1" >Дата начала обучения:</TextBlock>
@@ -139,12 +142,13 @@
                 <TextBlock Margin="7" Grid.Row="2">Адрес:</TextBlock>
                 <TextBox Margin="5" Grid.Row="2" Name="txtAddress" Grid.Column="1" Text="{Binding Path=Address}"></TextBox>
                 <TextBlock Margin="7" Grid.Row="3" >Телефон:</TextBlock>
-                <TextBox Margin="5" Grid.Row="3" Grid.Column="1" Name="txtPhone" Text="{Binding Path=Phone}"></TextBox>
+                <xctk:MaskedTextBox    Mask="+38(\000)000-0000" Margin="5" Grid.Row="3" Grid.Column="1" Name="txtPhone"   Text="{Binding Path=Phone}"   ValueDataType="{x:Type s:String}" ></xctk:MaskedTextBox>
                 <TextBlock Margin="7" Grid.Row="4" >Класс:</TextBlock>
                 <ComboBox  Margin="7" Grid.Row="4"  Name="cbClass"  Grid.Column="1"  SelectedValue="{Binding Class_id}"  DisplayMemberPath="Numbers"    SelectedValuePath="Id" Height="23" />
                 <TextBox Margin="5,7,0,10" Grid.Column="1" Name="txtStudentId" Visibility="Hidden" Text="{Binding Path=Id}"></TextBox>
                 <TextBlock Margin="7" Grid.Row="5" >Средний балл:</TextBlock>
                 <TextBlock Margin="5" Grid.Row="5" Grid.Column="1" Name="txMiddle" ></TextBlock>
+                <TextBlock Name="txtError"  Grid.Column="1" Grid.Row="6" Foreground="#FFDE0000" FontSize="16" FontFamily="Arial"></TextBlock>
             </Grid>
         </Border>
     </Grid>
